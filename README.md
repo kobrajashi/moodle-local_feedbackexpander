@@ -1,53 +1,52 @@
 # Feedback Expander (local_feedbackexpander)
 
-Lokales Plugin, das die **Feedback-Felder in der Einzelansicht der Bewertungen**
-(*Bewertungen → Einzelansicht*, `/grade/report/singleview/`) um einen vollwertigen
-Editor erweitert.
+Local plugin that adds a full text editor to the **feedback fields of the gradebook single view**
+(*Grades → Single view*, `/grade/report/singleview/`).
 
-Moodle zeigt dort nur einzeilige Textfelder. Das Plugin ergänzt je Feld eine
-Schaltfläche **„Im Editor bearbeiten"**, die den Feedback-Text in einem Modal mit
-TinyMCE öffnet – inklusive Formatierung, Links und Listen. Mit *„Einfügen und
-schließen"* wandert der Text zurück ins Formularfeld und wird beim normalen
-Speichern der Seite übernommen.
+Moodle only shows single-line text fields there. The plugin adds an **"Edit in editor"** button next to each
+field that opens the feedback in a modal with TinyMCE – including formatting, links and lists. *"Insert and
+close"* writes the text back into the form field, and it is saved together with the rest of the page.
 
-## Wie es technisch funktioniert
+## Requirements
 
-Ein Hook auf `before_footer_html_generation` (`classes/hook_callbacks.php`) lädt
-auf der Einzelansicht das AMD-Modul `local_feedbackexpander/expander`. Das Modul
+- **Moodle 4.5 or later** (`$plugin->requires = 2024100700`). Developed against Moodle 5.1.
+- TinyMCE must be installed (it is part of Moodle core). Without it, the modal falls back to a plain text area.
 
-1. hängt an jedes bearbeitbare Feedbackfeld (`feedback_<itemid>_<userid>`) eine
-   Schaltfläche,
-2. holt TinyMCE bei Bedarf über `editor_tiny/loader` – die Einzelansicht selbst
-   enthält keinen Editor,
-3. setzt beim Übernehmen bei Aktivitäts-Bewertungsaspekten den Haken
-   „Überschreiben“ (`override_<itemid>_<userid>`). Erst dadurch gibt die
-   Einzelansicht das gesperrte Feld frei und überträgt den Text beim Speichern.
+## How it works
 
-Gesperrte Felder ohne aktivierbare Überschreiben-Checkbox (z. B. bei gesperrten
-Bewertungen) bekommen keine Schaltfläche.
+A hook on `before_footer_html_generation` (`classes/hook_callbacks.php`) loads the AMD module
+`local_feedbackexpander/expander` on the single view. The module
 
-Die Einzelansicht speichert Feedback immer als `FORMAT_MOODLE`; das gibt das
-HTML aus dem Editor korrekt aus.
+1. adds a button to every editable feedback field (`feedback_<itemid>_<userid>`),
+2. loads TinyMCE on demand through `editor_tiny/loader` – the single view itself contains no editor,
+3. ticks the "Override" checkbox (`override_<itemid>_<userid>`) for activity grade items when the text is
+   inserted. Only then does the single view unlock the field and submit the text when the page is saved.
+
+Locked fields without an override checkbox that can be ticked (e.g. locked grades) get no button.
+
+The single view always stores feedback as `FORMAT_MOODLE`, which renders the HTML from the editor correctly.
 
 ## Installation
 
+From Moodle 5.1, plugins live in the `public` directory:
+
 ```bash
-cp -r local_feedbackexpander /pfad/zu/moodle/public/local/feedbackexpander
+cp -r local_feedbackexpander /path/to/moodle/public/local/feedbackexpander
 php admin/cli/upgrade.php
 ```
 
-Ab Moodle 5.1 liegen Plugins im Verzeichnis `public`. Alternativ als Administrator/in
-über *Website-Administration → Mitteilungen*.
+On Moodle 4.5 and 5.0 the target is `/path/to/moodle/local/feedbackexpander`. Alternatively, install as an
+administrator via *Site administration → Notifications*.
 
 ## Status
 
-`MATURITY_ALPHA`, Release 0.1.0 – funktionsfähig, aber noch nicht breit getestet.
+`MATURITY_ALPHA`, release 0.1.0 – working, but not yet widely tested.
 
-## Datenschutz
+## Privacy
 
-Privacy-Provider vorhanden: das Plugin speichert keine personenbezogenen Daten.
-Die Feedback-Texte selbst verwaltet weiterhin das Bewertungssystem von Moodle.
+Privacy provider included: the plugin stores no personal data. The feedback texts themselves are still managed
+by Moodle's gradebook.
 
-## Lizenz
+## License
 
-GNU GPL v3 oder später – siehe [LICENSE](LICENSE).
+GNU GPL v3 or later – see [LICENSE](LICENSE).
