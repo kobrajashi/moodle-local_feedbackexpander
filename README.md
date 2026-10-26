@@ -12,22 +12,22 @@ Speichern der Seite übernommen.
 
 ## Wie es technisch funktioniert
 
-Die Einzelansicht enthält keine Editor-Felder, deshalb lädt Moodle die
-`editor_tiny/*`-AMD-Module dort nicht. Das Plugin umgeht das so:
+Ein Hook auf `before_footer_html_generation` (`classes/hook_callbacks.php`) lädt
+auf der Einzelansicht das AMD-Modul `local_feedbackexpander/expander`. Das Modul
 
-1. `local_feedbackexpander_setup_editor()` registriert über
-   `editors_get_preferred_editor()` den bevorzugten Editor auf einem verborgenen
-   Vorlade-Textfeld im Seitenfuß. Damit zieht Moodle alle TinyMCE-Module mit.
-2. Das AMD-Modul `local_feedbackexpander/expander` hängt die Schaltflächen an die
-   Feedback-Felder und baut das Modal auf.
+1. hängt an jedes bearbeitbare Feedbackfeld (`feedback_<itemid>_<userid>`) eine
+   Schaltfläche,
+2. holt TinyMCE bei Bedarf über `editor_tiny/loader` – die Einzelansicht selbst
+   enthält keinen Editor,
+3. setzt beim Übernehmen bei Aktivitäts-Bewertungsaspekten den Haken
+   „Überschreiben“ (`override_<itemid>_<userid>`). Erst dadurch gibt die
+   Einzelansicht das gesperrte Feld frei und überträgt den Text beim Speichern.
 
-Der Aufruf erfolgt sowohl über den Moodle-5.x-Hook als auch über den Legacy-Callback
-`before_footer` – ein statisches Flag stellt sicher, dass er pro Request nur einmal
-greift, auch wenn beide Mechanismen vorhanden sind.
+Gesperrte Felder ohne aktivierbare Überschreiben-Checkbox (z. B. bei gesperrten
+Bewertungen) bekommen keine Schaltfläche.
 
-Das verborgene Textfeld darf nicht mit `display:none` ausgeblendet werden, weil
-TinyMCE sich auf unsichtbaren Elementen nicht initialisiert; stattdessen wird der
-Wrapper per CSS aus dem sichtbaren Bereich geschoben.
+Die Einzelansicht speichert Feedback immer als `FORMAT_MOODLE`; das gibt das
+HTML aus dem Editor korrekt aus.
 
 ## Installation
 

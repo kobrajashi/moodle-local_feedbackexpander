@@ -33,23 +33,9 @@
     min-height: 400px !important;
 }
 
-/* Original feedback inputs: slightly wider for plain-text display */
-input[name^="feedback_"] {
+/* Original feedback inputs: slightly wider for plain-text display.
+   Scoped to Single View: plugin styles are loaded on every page. */
+.path-grade-report-singleview input[name^="feedback_"] {
     min-width: 200px;
     text-overflow: ellipsis;
 }
-
-/* Wrapper that hides the preload textarea AND the .tox-tinymce container
-   TinyMCE inserts next to it. Must not use display:none – TinyMCE needs
-   to measure the element, so we shift it far off-screen instead. */
-.feedbackexpander-preload-wrapper {
-    position: absolute !important;
-    left: -9999px !important;
-    top: 0 !important;
-    width: 300px !important;
-    height: 150px !important;
-    overflow: hidden !important;
-    pointer-events: none !important;
-    z-index: -1 !important;
-}
-

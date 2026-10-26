@@ -18,7 +18,6 @@
  * Hook callback declarations for local_feedbackexpander.
  *
  * This file is a static declaration — no runtime logic allowed here.
- * On Moodle versions without the hook infrastructure the file is ignored.
  *
  * @package    local_feedbackexpander
  * @copyright  2026 Tobias Sanders
@@ -30,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 $callbacks = [
     [
         'hook'     => \core\hook\output\before_footer_html_generation::class,
-        'callback' => [local_feedbackexpander_hook_before_footer::class, 'callback'],
+        'callback' => [\local_feedbackexpander\hook_callbacks::class, 'before_footer'],
         'priority' => 500,
     ],
 ];
