@@ -1,0 +1,55 @@
+/* Feedback Expander - trigger button */
+.feedbackexpander-trigger {
+    display: inline-block;
+    margin-top: 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* Fallback plain textarea inside modal */
+.feedbackexpander-textarea {
+    width: 100%;
+    min-height: 400px;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+/* Make the modal wide enough for a comfortable editor */
+.feedbackexpander-modal .modal-dialog {
+    max-width: 800px;
+    width: 90vw;
+}
+
+.feedbackexpander-modal .modal-body {
+    min-height: 450px;
+    padding: 0.5rem;
+}
+
+/* Give TinyMCE full width inside the modal */
+.feedbackexpander-modal .tox-tinymce {
+    width: 100% !important;
+    min-height: 400px !important;
+}
+
+/* Original feedback inputs: slightly wider for plain-text display */
+input[name^="feedback_"] {
+    min-width: 200px;
+    text-overflow: ellipsis;
+}
+
+/* Wrapper that hides the preload textarea AND the .tox-tinymce container
+   TinyMCE inserts next to it. Must not use display:none – TinyMCE needs
+   to measure the element, so we shift it far off-screen instead. */
+.feedbackexpander-preload-wrapper {
+    position: absolute !important;
+    left: -9999px !important;
+    top: 0 !important;
+    width: 300px !important;
+    height: 150px !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+}
+

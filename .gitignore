@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+._*
+
+# Editors / IDEs
+.idea/
+.vscode/
+*.sublime-*
+*~
+*.swp
+
+# Build- und Paketartefakte
+*.zip
+*.tar.gz
+node_modules/
+vendor/
+
+# Merge-Reste
+*.orig
+*.rej

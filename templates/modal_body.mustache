@@ -1,0 +1,13 @@
+{{!
+    Template for the feedback expander modal body.
+    Context variables:
+        - textareaid: unique ID for the textarea element
+        - currentvalue: current feedback text (HTML-safe triple-brace to allow HTML content)
+}}
+<div class="feedbackexpander-modal-body p-2">
+    <label class="sr-only" for="{{textareaid}}">{{#str}}feedbacktext, local_feedbackexpander{{/str}}</label>
+    <textarea id="{{textareaid}}"
+              name="{{textareaid}}"
+              class="form-control feedbackexpander-textarea"
+              rows="20">{{currentvalue}}</textarea>
+</div>
