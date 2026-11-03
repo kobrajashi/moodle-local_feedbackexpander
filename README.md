@@ -40,7 +40,7 @@ administrator via *Site administration → Notifications*.
 
 ## Status
 
-`MATURITY_ALPHA`, release 0.1.0 – working, but not yet widely tested.
+`MATURITY_ALPHA`, release 0.1.1 – working, but not yet widely tested.
 
 ## Privacy
 
