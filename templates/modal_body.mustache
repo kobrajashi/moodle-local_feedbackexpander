@@ -1,8 +1,33 @@
 {{!
-    Template for the feedback expander modal body.
-    Context variables:
-        - textareaid: unique ID for the textarea element
-        - currentvalue: current feedback text (HTML-safe triple-brace to allow HTML content)
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template local_feedbackexpander/modal_body
+
+    Body of the feedback expander modal.
+
+    Context variables required:
+    * textareaid - Unique ID for the textarea element
+    * currentvalue - Current feedback text (escaped)
+
+    Example context (json):
+    {
+        "textareaid": "feedbackexpander-textarea-1",
+        "currentvalue": "<p>Well done.</p>"
+    }
 }}
 <div class="feedbackexpander-modal-body p-2">
     <label class="sr-only" for="{{textareaid}}">{{#str}}feedbacktext, local_feedbackexpander{{/str}}</label>

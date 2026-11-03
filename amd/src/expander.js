@@ -180,7 +180,7 @@ define([
     function getEditorContent(textareaId) {
         var editor = getEditorInstance(textareaId);
         if (editor) {
-            return editor.getContent(); // returns HTML
+            return editor.getContent(); // Returns HTML
         }
         var textarea = document.getElementById(textareaId);
         return textarea ? textarea.value : '';
@@ -258,9 +258,9 @@ define([
 
         // Fetch localised strings in parallel with template rendering.
         var stringsPromise = Str.getStrings([
-            {key: 'editfeedback',  component: 'local_feedbackexpander'},
-            {key: 'saveandclose',  component: 'local_feedbackexpander'},
-            {key: 'close',         component: 'local_feedbackexpander'}
+            {key: 'editfeedback', component: 'local_feedbackexpander'},
+            {key: 'saveandclose', component: 'local_feedbackexpander'},
+            {key: 'close', component: 'local_feedbackexpander'}
         ]);
 
         var bodyPromise = Templates.render('local_feedbackexpander/modal_body', {
@@ -272,54 +272,54 @@ define([
             var strings = results[0];
 
             return ModalSaveCancel.create({
-                title: strings[0],   // 'editfeedback'
+                title: strings[0], // 'editfeedback'
                 body: results[1],
                 large: true,
                 // Without this every opened modal stays hidden in the DOM.
                 removeOnClose: true,
                 buttons: {
-                    save: strings[1],    // 'saveandclose'
-                    cancel: strings[2]   // 'close'
+                    save: strings[1], // 'saveandclose'
+                    cancel: strings[2] // 'close'
                 }
-            }).then(function(modal) {
-                // Apply our custom CSS class so styles.css selectors work.
-                modal.getRoot().addClass('feedbackexpander-modal');
-
-                // Initialise TinyMCE after the modal is fully visible.
-                modal.getRoot().on(ModalEvents.shown, function() {
-                    initEditor(textareaId, currentValue);
-                });
-
-                // Save: read content → write to original input → close.
-                modal.getRoot().on(ModalEvents.save, function(e) {
-                    e.preventDefault();
-
-                    var content = getEditorContent(textareaId); // HTML
-                    destroyEditor(textareaId);
-
-                    // Override first: it enables the input, so the value below
-                    // is actually submitted.
-                    activateOverrideCheckbox(targetInput);
-
-                    targetInput.value = content;
-                    // Notify Moodle (and any React/Vue wrappers) that the value changed.
-                    targetInput.dispatchEvent(new Event('change', {bubbles: true}));
-                    targetInput.dispatchEvent(new Event('input',  {bubbles: true}));
-
-                    modal.hide();
-                });
-
-                // Cancel / hidden: destroy editor, restore focus.
-                modal.getRoot().on(ModalEvents.hidden, function() {
-                    destroyEditor(textareaId);
-                    if (triggerEl) {
-                        triggerEl.focus();
-                    }
-                });
-
-                modal.show();
-                return modal;
             });
+        }).then(function(modal) {
+            // Apply our custom CSS class so styles.css selectors work.
+            modal.getRoot().addClass('feedbackexpander-modal');
+
+            // Initialise TinyMCE after the modal is fully visible.
+            modal.getRoot().on(ModalEvents.shown, function() {
+                initEditor(textareaId, currentValue);
+            });
+
+            // Save: read content → write to original input → close.
+            modal.getRoot().on(ModalEvents.save, function(e) {
+                e.preventDefault();
+
+                var content = getEditorContent(textareaId); // HTML
+                destroyEditor(textareaId);
+
+                // Override first: it enables the input, so the value below
+                // is actually submitted.
+                activateOverrideCheckbox(targetInput);
+
+                targetInput.value = content;
+                // Notify Moodle (and any React/Vue wrappers) that the value changed.
+                targetInput.dispatchEvent(new Event('change', {bubbles: true}));
+                targetInput.dispatchEvent(new Event('input', {bubbles: true}));
+
+                modal.hide();
+            });
+
+            // Cancel / hidden: destroy editor, restore focus.
+            modal.getRoot().on(ModalEvents.hidden, function() {
+                destroyEditor(textareaId);
+                if (triggerEl) {
+                    triggerEl.focus();
+                }
+            });
+
+            modal.show();
+            return modal;
         }).catch(Notification.exception);
     }
 
