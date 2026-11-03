@@ -27,11 +27,14 @@
     padding: 0.5rem;
 }
 
-/* Give TinyMCE full width inside the modal */
+/* Give TinyMCE full width inside the modal. TinyMCE sets width and height
+   as inline styles, which only !important can override. */
+/* stylelint-disable declaration-no-important */
 .feedbackexpander-modal .tox-tinymce {
     width: 100% !important;
     min-height: 400px !important;
 }
+/* stylelint-enable declaration-no-important */
 
 /* Original feedback inputs: slightly wider for plain-text display.
    Scoped to Single View: plugin styles are loaded on every page. */
